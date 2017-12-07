@@ -37,10 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     'django.contrib.sites',
     'rest_framework',
     'server',
-    #'channels',
+    #'socket_server',
+    'channels',
+    'channels_api'
 ]
+
+CHANNELS_API = {
+    'DEFAULT_PAGE_SIZE': 25
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,13 +60,13 @@ MIDDLEWARE = [
 ]
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('localhost', 6379)],
-        },
-        'ROUTING': 'example_channels.routing.channel_routing',
-    }
+    # 'default': {
+    #     'BACKEND': 'asgi_redis.RedisChannelLayer',
+    #     'CONFIG': {
+    #         'hosts': [('localhost', 8000)],
+    #     },
+    #     'ROUTING': 'sound_server.routing.channel_routing',
+    # }
 }
 
 ROOT_URLCONF = 'sound_server.urls'
