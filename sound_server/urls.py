@@ -20,10 +20,10 @@ from server import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/list/',views.user_list),
-    url(r'^user/create/',views.create_update_user),
-    url(r'^sound/details/(?P<pk>[0-9]+)/$',views.sound_detail),
-    url(r'^label/create',views.create_label),
-    url(r'^sound/list/',views.sound_list),
-    url(r'^label/random/',views.label_random),
+    url(r'^user/list/', views.user_list),
+    url(r'^user/create/', views.create_update_user),
+    url(r'^sound/details/(?P<pk>[0-9]+)/$', views.sound_detail),
+    url(r'^label/create', views.create_label),
+    url(r'^sound/list/', views.sound_list),
+    url(r'^label/random/', views.label_random),
 ]

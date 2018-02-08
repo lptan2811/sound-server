@@ -1,9 +1,0 @@
-from channels.routing import route
-from sound_server.consumer import ws_connect, ws_disconnect
-
-
-channel_routing = [
-    route('websocket.connect', ws_connect),
-    route('websocket.disconnect', ws_disconnect),
-    route("http.request", "sound_server.consumers.http_consumer"),
-]

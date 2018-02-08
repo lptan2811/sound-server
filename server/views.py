@@ -1,14 +1,11 @@
 import uuid
 
-import null as null
-from copy import deepcopy
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from requests import Response
-from rest_framework import status
+
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
-from rest_framework.utils import json
+from rest_framework import status
 
 from server.models import Users, Sound
 from server.serializer import UserSerializer, SoundSerializer
@@ -16,32 +13,34 @@ from server.serializer import UserSerializer, SoundSerializer
 
 @csrf_exempt
 def user_list(request):
-    """List all users"""
+    """List all users."""
     if request.method == 'GET':
         user = Users.objects.all()
         serializer = UserSerializer(user, many=True)
-        return JsonResponse(serializer.data,safe= False,status=200)
+        return JsonResponse(serializer.data, safe=False, status=200)
     return JsonResponse(serializer.errors, status=400)
 
 
 @csrf_exempt
-@api_view(['GET','POST','PUT'])
-def create_update_user(request,format=None):
-
+@api_view(['GET', 'POST', 'PUT'])
+def create_update_user(request, format=None):
+    """Create update user."""
     if request.method == 'POST':
-        serializer = UserSerializer(data = request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-    return JsonResponse('fail',safe=False,status = status.HTTP_400_BAD_REQUEST)
+    return JsonResponse('fail', safe=False, status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
-def sound_detail(request,pk):
+def sound_detail(request, pk):
+    """Show sound detail."""
     try:
-        if pk == null:
+        if pk is None:
             sound = Sound.objects.all()
-            return  JsonResponse(serializer.data,safe=False,status=200)
+            serializer = SoundSerializer(sound)
+            return JsonResponse(serializer.data, safe=False, status=200)
         sound = Sound.objects.get(pk == pk)
     except Sound.DoesNotExist:
         return HttpResponse(status=404)
@@ -62,8 +61,10 @@ def sound_detail(request,pk):
         sound.delete()
         return HttpResponse(status=204)
 
+
 @csrf_exempt
 def sound_list(request):
+    """Show sound list."""
     if request.method == 'GET':
         snippets = Sound.objects.all()
         serializer = SoundSerializer(snippets, many=True)
@@ -77,23 +78,27 @@ def sound_list(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-@csrf_exempt
-@api_view(['GET','POST','PUT'])
-def create_label(request,format=None):
-    if request.method == 'POST':
-        serializer = SoundSerializer(data= request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data,status = 201)
-    return JsonResponse(serializer.error_messages,safe=False,status=400)
 
 @csrf_exempt
-@api_view(['GET','POST','PUT'])
-def label_random(request,format=None):
+@api_view(['GET', 'POST', 'PUT'])
+def create_label(request, format=None):
+    """Create label."""
     if request.method == 'POST':
-        serializer = SoundSerializer(data= {'label':str(uuid.uuid4())})
+        serializer = SoundSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            question = "New label created: "   + str(serializer.data)
-            return JsonResponse(serializer.data,safe=False,status = 201)
-    return JsonResponse(serializer.error_messages,safe=False,status=400)
+            return JsonResponse(serializer.data, status=201)
+    return JsonResponse(serializer.error_messages, safe=False, status=400)
+
+
+@csrf_exempt
+@api_view(['GET', 'POST', 'PUT'])
+def label_random(request, format=None):
+    """Random label."""
+    serializer = SoundSerializer()
+    if request.method == 'POST' or request.method == 'GET':
+        serializer = SoundSerializer(data={'label': str(uuid.uuid4())})
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False, status=201)
+    return JsonResponse(serializer.error_messages, safe=False, status=400)

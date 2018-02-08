@@ -37,12 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'django.contrib.sites',
+    'django.contrib.sites',
     'rest_framework',
     'server',
-    #'socket_server',
-    'channels',
-    'channels_api'
 ]
 
 CHANNELS_API = {
@@ -58,16 +55,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-CHANNEL_LAYERS = {
-    # 'default': {
-    #     'BACKEND': 'asgi_redis.RedisChannelLayer',
-    #     'CONFIG': {
-    #         'hosts': [('localhost', 8000)],
-    #     },
-    #     'ROUTING': 'sound_server.routing.channel_routing',
-    # }
-}
 
 ROOT_URLCONF = 'sound_server.urls'
 
@@ -88,17 +75,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sound_server.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 DATABASES = {
     'default': {
