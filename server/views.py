@@ -113,7 +113,7 @@ def label_predict(request, format=None):
         sr = request.GET['sr']
         print("data", wave, sr)
         predicted_labels = predict_sound(wave, sr)
-        serializer = SoundSerializer(data=predicted_labels)
+        serializer = SoundSerializer(data={'label':predicted_labels})
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, safe=False, status=201)
