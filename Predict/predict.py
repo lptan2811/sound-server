@@ -5,38 +5,29 @@ import numpy as np
 
 from keras.models import load_model
 
-import data
-
-from keras.models import Sequential
-from keras.optimizers import SGD
-from keras.utils import np_utils
-from keras.layers.core import Dense, Activation
-from keras.layers.recurrent import LSTM
-import utils
+from Predict import data
 
 
-def predict(wave, sr):
-    """
-    Predict possible labels in the inputed sound wave and sample rate
-    """
-    nb_classes = data.voca_size
+def predict_sound(wave, sr):
+    """Predict possible labels in the inputed sound wave and sample rate."""
+    # nb_classes = data.voca_size
     threshold = 0.5
     hop = 10
-    model = load_model('training/model.h5')
-    wave, sr = rosa.load('data/test.wav', mono=True, sr=16000)  #resample to 16k
+    model = load_model('Predict/training/model.h5')
+    #wave, sr = rosa.load('Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
+    """TEST"""
+    wave = np.load('Predict/data/test.npy', allow_pickle=False)
+    sr = 16000
 
     # get mfcc
     mfcc = rosa.feature.melspectrogram(wave, sr=16000).transpose()
     beg = 0
     end = 80
-    res = np.empty(0)
     labels = {}
     while end < mfcc.shape[0]:
         grain = mfcc[beg:end].copy()
         grain = np.reshape(grain, grain.shape+(1,))
         blah = model.predict(np.array([grain]))
-        #if (np.max(blah[0])>=threshold):
-        #    res=np.append(res,np.argmax(blah[0]))
         if(np.max(blah[0]) >= threshold):
             label = data.byte_to_label(np.argmax(blah[0]))
             if label in labels:

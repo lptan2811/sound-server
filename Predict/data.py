@@ -4,7 +4,7 @@ import string
 
 
 # default data path
-_data_path = 'data/'
+_data_path = 'Predict/data/'
 
 #
 # load all labels
@@ -45,6 +45,3 @@ def _load_mfcc(src_list):
     # speed perturbation augmenting
 
     return label, mfcc
-
-
-
