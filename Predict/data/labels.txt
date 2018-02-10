@@ -1,0 +1,7 @@
+cough
+cryingBaby
+doorKnock
+flushing
+footstep
+glassBreaking
+sneezing

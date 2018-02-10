@@ -9,6 +9,7 @@ from rest_framework import status
 
 from server.models import Users, Sound
 from server.serializer import UserSerializer, SoundSerializer
+from Predict.predict import predict_sound
 
 
 @csrf_exempt
@@ -102,3 +103,18 @@ def label_random(request, format=None):
             serializer.save()
             return JsonResponse(serializer.data, safe=False, status=201)
     return JsonResponse(serializer.error_messages, safe=False, status=400)
+
+
+@csrf_exempt
+@api_view(['PUT', 'POST'])
+def label_predict(request, format=None):
+    "Label predict api."
+    if request.method == 'PUT' or request.method == 'POST':
+        wave = request.GET['wave']
+        sr = request.GET['sr']
+        predicted_labels = predict_sound(wave, sr)
+        serializer = SoundSerializer(data={'label': predicted_labels})
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False, status=201)
+    return JsonResponse(serializer.data, safe=False, status=400)

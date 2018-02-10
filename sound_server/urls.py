@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^label/create', views.create_label),
     url(r'^sound/list/', views.sound_list),
     url(r'^label/random/', views.label_random),
+    url(r'^label/predict', views.label_predict),
 ]
