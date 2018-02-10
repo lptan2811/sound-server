@@ -14,10 +14,11 @@ def predict_sound(wave, sr):
     threshold = 0.5
     hop = 10
     model = load_model('Predict/training/model.h5')
-    #wave, sr = rosa.load('Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
+    """Load default files."""
+    wave, sr = rosa.load('Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
     """TEST"""
-    wave = np.load('Predict/data/test.npy', allow_pickle=False)
-    sr = 16000
+    # wave = np.load('Predict/data/test.npy', allow_pickle=False)
+    # sr = 16000
 
     # get mfcc
     mfcc = rosa.feature.melspectrogram(wave, sr=16000).transpose()

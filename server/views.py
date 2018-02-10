@@ -11,6 +11,7 @@ from server.models import Users, Sound
 from server.serializer import UserSerializer, SoundSerializer
 from Predict.predict import predict_sound
 
+
 @csrf_exempt
 def user_list(request):
     """List all users."""
@@ -111,9 +112,8 @@ def label_predict(request, format=None):
     if request.method == 'PUT' or request.method == 'POST':
         wave = request.GET['wave']
         sr = request.GET['sr']
-        print("data", wave, sr)
         predicted_labels = predict_sound(wave, sr)
-        serializer = SoundSerializer(data={'label':predicted_labels})
+        serializer = SoundSerializer(data={'label': predicted_labels})
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, safe=False, status=201)
