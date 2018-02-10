@@ -7,13 +7,37 @@ from keras.models import load_model
 
 from Predict import data
 
+model = None
+
+
+def run_once(f):
+    def wrapper(*args, **kwargs):
+        if not wrapper.has_run:
+            wrapper.has_run = True
+            return f(*args, **kwargs)
+    wrapper.has_run = False
+    return wrapper
+
+
+@run_once
+def loading_sound_model(path):
+    return load_model(path)
+
 
 def predict_sound(wave, sr):
     """Predict possible labels in the inputed sound wave and sample rate."""
     # nb_classes = data.voca_size
     threshold = 0.5
     hop = 10
-    model = load_model('Predict/training/model.h5')
+    global model
+    get_model = run_once(loading_sound_model)('Predict/training/model.h5')
+
+    if get_model:
+        print("IN")
+        model = get_model
+    if not model:
+        print("Invalid model")
+        return []
     """Load default files."""
     wave, sr = rosa.load('Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
     """TEST"""
