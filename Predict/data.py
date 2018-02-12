@@ -4,7 +4,7 @@ import string
 
 
 # default data path
-_data_path = 'Predict/data/'
+_data_path = './Predict/data/'
 
 #
 # load all labels

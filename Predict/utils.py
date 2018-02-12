@@ -3,7 +3,7 @@ from random import getrandbits
 import librosa
 import data
 # data path
-_training_path='training/preprocess/'
+_training_path='./training/preprocess/'
 _maximum_splits= 50000
 _frames_per_split= 80
 _hop=10;
