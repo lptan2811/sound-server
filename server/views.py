@@ -108,13 +108,20 @@ def label_random(request, format=None):
 @csrf_exempt
 @api_view(['PUT', 'POST'])
 def label_predict(request, format=None):
-    "Label predict api."
+    """Label predict api."""
     if request.method == 'PUT' or request.method == 'POST':
         wave = request.GET['wave']
         sr = request.GET['sr']
-        predicted_labels = predict_sound(wave, sr)
-        serializer = SoundSerializer(data={'label': predicted_labels})
+        time_start = request.GET['time_start']
+        predicted_labels = predict_sound(time_start, wave, sr)
+        serializer = SoundSerializer(
+            data={
+                'time_start': time_start,
+                'wave': wave,
+                'label': predicted_labels
+                })
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, safe=False, status=201)
+        return JsonResponse(serializer.data, safe=False, status=200)
     return JsonResponse(serializer.data, safe=False, status=400)

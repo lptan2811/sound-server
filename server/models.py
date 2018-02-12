@@ -1,7 +1,9 @@
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.db import models
-
-
+from django.utils import timezone
 # Create your models here.
+
+
 class Users(models.Model):
     class Meta:
         db_table = 'users'
@@ -16,7 +18,10 @@ class Sound(models.Model):
         db_table = 'sound'
 
     id = models.AutoField(primary_key=True)
-    label = models.TextField(default='')
+    time_start = models.DateTimeField(null=True, blank=True, default=timezone.now)
+    wave = ArrayField(models.FloatField(), blank=True, default=[])
+    sr = models.IntegerField(default=16000)
+    label = JSONField(default={}, null=True, blank=True)
 
     @classmethod
     def createR(cls, label):
