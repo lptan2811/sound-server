@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
+from django.conf.urls import include, url
 from server import views
 
 urlpatterns = [
@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^sound/list/', views.sound_list),
     url(r'^label/random/', views.label_random),
     url(r'^label/predict', views.label_predict),
+    url(r'fcm/', include('fcm.urls')),
+    url(r'^noti/send', views.FCM),
 ]
