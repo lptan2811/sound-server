@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'server',
     "fcm_django",
-    'fcm',
 ]
 
 REST_FRAMEWORK = {

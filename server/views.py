@@ -10,7 +10,7 @@ from rest_framework import status
 from server.models import Users, Sound
 from server.serializer import UserSerializer, SoundSerializer
 from Predict.predict import predict_sound
-from fcm.utils import get_device_model
+#from fcm.utils import get_device_model
 
 
 @csrf_exempt
@@ -133,10 +133,9 @@ def FCM(request,format=None):
     "Sending Notification"
     if request.method == 'PUT' or request.method == 'POST':
         message = request.GET['mess']
-        Device = get_device_model()
+#        Device = get_device_model()
 
-        my_phone = Device.objects.get(name="an test device")
-        my_phone.send_message({'mess':message}, collapse_key='something')
+        #my_phone = Device.objects.get(name="an test device")
+        #my_phone.send_message({'mess':message}, collapse_key='something')
         return JsonResponse("success", safe =False, status=200)
     return JsonResponse(errors,safe=False,status=400)
-
