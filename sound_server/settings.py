@@ -38,12 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_numpy',
     'rest_framework',
     'server',
     "fcm_django",
     'fcm',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 FCM_APIKEY = "AAAAVOq3v0I:APA91bFotGXiR_9TTywGuM3ZZQSkT2S1rT4RW_e5-O_Td6fJgZmTSXOWl-UHMYgJ3bZ2wBUHUGMDClXbIUgE8I3ZG7gZrqY8fNCenZSJS6NefDsFXRiQo4ajY1xi8Kpj8y6Nu7LEU87J"
 
 FCM_DJANGO_SETTINGS = {

@@ -12,4 +12,4 @@ class UserSerializer(serializers.ModelSerializer):
 class SoundSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sound
-        fields = ('id', 'label')
+        fields = ('time_start', 'wave', 'label')
