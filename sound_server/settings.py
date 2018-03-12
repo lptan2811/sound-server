@@ -107,7 +107,7 @@ DATABASES = {
         'NAME': 'sound_server',
         'USER': 'lptan',
         'PASSWORD': '',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
