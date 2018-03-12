@@ -106,7 +106,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sound_server',
         'USER': 'lptan',
-        'PASSWORD': '',
+        'PASSWORD': ' ',
         'HOST': 'localhost',
         'PORT': '5432',
     }
