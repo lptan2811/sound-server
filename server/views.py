@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework import status
+from fcm_django.models import FCMDevice
 
 from server.models import Users, Sound
 from server.serializer import UserSerializer, SoundSerializer
@@ -137,5 +138,10 @@ def FCM(request,format=None):
 
         #my_phone = Device.objects.get(name="an test device")
         #my_phone.send_message({'mess':message}, collapse_key='something')
+        #device = FCMDevice.objects.all().first()
+        #evice.send_message("Title", "Message")
+        #device.send_message(data={"test": "test"})
+        #device.send_message(title="Title", body="Message", icon=..., data={"test": "test"})
+
         return JsonResponse("success", safe =False, status=200)
     return JsonResponse(errors,safe=False,status=400)

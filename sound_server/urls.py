@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include, url
 from server import views
-from rest_framework_jwt.views import obtain_jwt_token
+#from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^sound/list/', views.sound_list),
     url(r'^label/random/', views.label_random),
     url(r'^label/predict', views.label_predict),
-    url(r'^api-token-auth/',obtain_jwt_token),
+    #url(r'^api-token-auth/',obtain_jwt_token),
     #url(r'fcm/', include('fcm.urls')),
     url(r'^noti/send', views.FCM),
 ]
