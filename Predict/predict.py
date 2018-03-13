@@ -37,7 +37,8 @@ def predict_sound(time_start, wav, sr):
     if not model:
         return []
     """Load default files."""
-    wave, sr = rosa.load('./Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
+    if not wave:
+        wave, sr = rosa.load('./Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
     """TEST"""
     # wave = np.load('Predict/data/test.npy', allow_pickle=False)
     # sr = 16000
