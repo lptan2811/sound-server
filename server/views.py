@@ -11,6 +11,7 @@ from fcm_django.models import FCMDevice
 from server.models import Users, Sound
 from server.serializer import UserSerializer, SoundSerializer
 from Predict.predict import predict_sound
+import json
 #from fcm.utils import get_device_model
 
 
@@ -112,9 +113,18 @@ def label_random(request, format=None):
 def label_predict(request, format=None):
     """Label predict api."""
     if request.method == 'PUT' or request.method == 'POST':
-        wave = request.GET['wave']
+        """wave = request.GET['wave']
+        print (type(wave))
         sr = request.GET['sr']
         time_start = request.GET['time_start']
+        
+        """
+        content = json.loads(request.body)
+        wave = content['wave']
+        if(wave is not "numpy.ndarray"):
+            return JsonResponse("sai roi ban oi", safe=False, status =400)
+        sr = content['sr']
+        time_start = content['time_start']
         predicted_labels = predict_sound(time_start, wave, sr)
         serializer = SoundSerializer(
             data={

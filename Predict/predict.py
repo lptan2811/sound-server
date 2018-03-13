@@ -24,7 +24,7 @@ def loading_sound_model(path):
     return load_model(path)
 
 
-def predict_sound(time_start, wav, sr):
+def predict_sound(time_start, wave, sr):
     """Predict possible labels in the inputed sound wave and sample rate."""
     # nb_classes = data.voca_size
     threshold = 0.5

@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '55&!a7bkb0nb=^vo#282oyjeu2095(719@m-vvph$h48_d!pyi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','52.26.6.52','127.0.0.1','*']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -43,16 +43,25 @@ INSTALLED_APPS = [
     "fcm_django",
 ]
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ),
+# }
+
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+    # other settings...
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
 }
+
+
 # FCM_APIKEY = "AAAAVOq3v0I:APA91bFotGXiR_9TTywGuM3ZZQSkT2S1rT4RW_e5-O_Td6fJgZmTSXOWl-UHMYgJ3bZ2wBUHUGMDClXbIUgE8I3ZG7gZrqY8fNCenZSJS6NefDsFXRiQo4ajY1xi8Kpj8y6Nu7LEU87J"
 
 # FCM_DJANGO_SETTINGS = {
@@ -100,27 +109,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sound_server.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sound_server',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'sound_server',
-#         'USER': 'lptan',
-#         'PASSWORD': '',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
 #         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sound_server',
+        'USER': 'lptan',
+        'PASSWORD': '',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
