@@ -121,8 +121,10 @@ def label_predict(request, format=None):
         """
         content = json.loads(request.body)
         wave = content['wave']
-        if(wave is not "numpy.ndarray"):
-            return JsonResponse("sai roi ban oi", safe=False, status =400)
+        if(wave == []):
+            return JsonResponse("wave must be not empty", safe=False, status =400)
+        if(type(wave) is not list):
+            return JsonResponse("wave must be list", safe=False, status =400)
         sr = content['sr']
         time_start = content['time_start']
         predicted_labels = predict_sound(time_start, wave, sr)

@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '55&!a7bkb0nb=^vo#282oyjeu2095(719@m-vvph$h48_d!pyi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','52.26.6.52','127.0.0.1','*']
+ALLOWED_HOSTS = ['172.29.192.51','172.20.10.3','localhost','52.26.6.52','127.0.0.1','*']
 
 # Application definition
 
@@ -108,27 +108,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sound_server.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sound_server',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'sound_server',
-#         'USER': 'lptan',
-#         'PASSWORD': '',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
 #         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sound_server',
+        'USER': 'lptan',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -161,7 +161,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

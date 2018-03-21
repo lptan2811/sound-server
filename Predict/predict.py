@@ -4,11 +4,12 @@ import librosa as rosa
 import numpy as np
 
 from keras.models import load_model
+import tensorflow as tf
 
 from Predict import data
 from server.models import Sound
-model = None
-
+model = load_model('./Predict/training/model.h5')
+graph = tf.get_default_graph()
 
 def run_once(f):
     def wrapper(*args, **kwargs):
@@ -30,19 +31,24 @@ def predict_sound(time_start, wave, sr):
     threshold = 0.5
     hop = 10
     global model
+    """
     get_model = run_once(loading_sound_model)('./Predict/training/model.h5')
 
     if get_model:
         model = get_model
     if not model:
+        print("Model is not loaded")
         return []
+
+    """
     """Load default files."""
     if not wave:
         wave, sr = rosa.load('./Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
     """TEST"""
-    # wave = np.load('Predict/data/test.npy', allow_pickle=False)
-    # sr = 16000
-
+    #wave = np.load('Predict/data/test.npy', allow_pickle=False)
+    #sr = 16000
+    if (type(wave) is list):
+        wave = np.array(wave)
     # get mfcc
     mfcc = rosa.feature.melspectrogram(wave, sr=16000).transpose()
     beg = 0
@@ -51,21 +57,23 @@ def predict_sound(time_start, wave, sr):
     while end < mfcc.shape[0]:
         grain = mfcc[beg:end].copy()
         grain = np.reshape(grain, grain.shape+(1,))
-        blah = model.predict(np.array([grain]))
+        global graph
+        with graph.as_default():
+            blah = model.predict(np.array([grain]))
         if(np.max(blah[0]) >= threshold):
-            label = data.byte_to_label(np.argmax(blah[0]))
+            label = str(data.byte_to_label(np.argmax(blah[0])))
             if label in labels:
                 labels[label] = labels[label] + 1
             else:
                 labels[label] = 1
         beg = beg+hop
         end = beg+80
-    print(labels)
+    #print(labels)
     # Save sound to DATABASES
     Sound.objects.create(
         wave=wave.tolist(),
-        sr=sr,
         time_start=time_start,
+        sr=sr,
         label=labels
         )
     return labels
