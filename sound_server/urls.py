@@ -29,6 +29,6 @@ urlpatterns = [
     url(r'^label/random/', views.label_random),
     url(r'^label/predict', views.label_predict),
     #url(r'^api-token-auth/',obtain_jwt_token),
-    #url(r'fcm/', include('fcm.urls')),
+    url(r'fcm/', include('fcm.urls')),
     url(r'^noti/send', views.FCM),
 ]

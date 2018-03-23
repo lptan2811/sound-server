@@ -74,6 +74,6 @@ def predict_sound(time_start, wave, sr):
         wave=wave.tolist(),
         time_start=time_start,
         sr=sr,
-        label=labels
+        label=labels,
         )
     return labels

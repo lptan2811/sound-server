@@ -12,7 +12,6 @@ class Users(models.Model):
     email = models.TextField(default='')
     gender = models.SmallIntegerField(default=0)
 
-
 class Sound(models.Model):
     class Meta:
         db_table = 'sound'
@@ -22,6 +21,7 @@ class Sound(models.Model):
     wave = ArrayField(models.FloatField(), blank=True, default=[])
     sr = models.IntegerField(default=16000)
     label = JSONField(default={}, null=True, blank=True)
+    user_id = models.ForeignKey(Users, default='')
 
     @classmethod
     def createR(cls, label):

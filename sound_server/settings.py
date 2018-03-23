@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'server',
     "fcm_django",
+    "fcm",
 ]
 
 # REST_FRAMEWORK = {
@@ -61,18 +62,18 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [],
 }
 
-# FCM_APIKEY = "AAAAVOq3v0I:APA91bFotGXiR_9TTywGuM3ZZQSkT2S1rT4RW_e5-O_Td6fJgZmTSXOWl-UHMYgJ3bZ2wBUHUGMDClXbIUgE8I3ZG7gZrqY8fNCenZSJS6NefDsFXRiQo4ajY1xi8Kpj8y6Nu7LEU87J"
+FCM_APIKEY = "AAAAVOq3v0I:APA91bFotGXiR_9TTywGuM3ZZQSkT2S1rT4RW_e5-O_Td6fJgZmTSXOWl-UHMYgJ3bZ2wBUHUGMDClXbIUgE8I3ZG7gZrqY8fNCenZSJS6NefDsFXRiQo4ajY1xi8Kpj8y6Nu7LEU87J"
 
-# FCM_DJANGO_SETTINGS = {
-#         "FCM_SERVER_KEY": "AAAAVOq3v0I:APA91bFotGXiR_9TTywGuM3ZZQSkT2S1rT4RW_e5-O_Td6fJgZmTSXOWl-UHMYgJ3bZ2wBUHUGMDClXbIUgE8I3ZG7gZrqY8fNCenZSJS6NefDsFXRiQo4ajY1xi8Kpj8y6Nu7LEU87J",
-#          # true if you want to have only one active device per registered user at a time
-#          # default: False
-#         "ONE_DEVICE_PER_USER": False,
-#          # devices to which notifications cannot be sent,
-#          # are deleted upon receiving error response from FCM
-#          # default: False
-#         "DELETE_INACTIVE_DEVICES": False,
-# }
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": "AAAAVOq3v0I:APA91bFotGXiR_9TTywGuM3ZZQSkT2S1rT4RW_e5-O_Td6fJgZmTSXOWl-UHMYgJ3bZ2wBUHUGMDClXbIUgE8I3ZG7gZrqY8fNCenZSJS6NefDsFXRiQo4ajY1xi8Kpj8y6Nu7LEU87J",
+         # true if you want to have only one active device per registered user at a time
+         # default: False
+        "ONE_DEVICE_PER_USER": False,
+         # devices to which notifications cannot be sent,
+         # are deleted upon receiving error response from FCM
+         # default: False
+        "DELETE_INACTIVE_DEVICES": False,
+}
 
 CHANNELS_API = {
     'DEFAULT_PAGE_SIZE': 25
@@ -108,27 +109,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sound_server.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sound_server',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'sound_server',
-#         'USER': 'lptan',
-#         'PASSWORD': '',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
 #         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sound_server',
+        'USER': 'lptan',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
