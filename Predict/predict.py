@@ -7,7 +7,7 @@ from keras.models import load_model
 import tensorflow as tf
 
 from Predict import data
-from server.models import Sound
+from server.models import Sound,Users
 model = load_model('./Predict/training/model.h5')
 graph = tf.get_default_graph()
 
@@ -25,7 +25,7 @@ def loading_sound_model(path):
     return load_model(path)
 
 
-def predict_sound(time_start, wave, sr):
+def predict_sound(time_start, wave, sr, user_id):
     """Predict possible labels in the inputed sound wave and sample rate."""
     # nb_classes = data.voca_size
     threshold = 0.5
@@ -43,7 +43,10 @@ def predict_sound(time_start, wave, sr):
     """
     """Load default files."""
     if not wave:
-        wave, sr = rosa.load('./Predict/data/test.wav', mono=True, sr=16000)  # resample to 16k
+        return {}
+        wave, sr = rosa.load('./Predict/data/embe.wav', mono=True, sr=16000)  # resample to 16k
+        user_id = 1
+        time_start = "2017-12-21 8:10:1"
     """TEST"""
     #wave = np.load('Predict/data/test.npy', allow_pickle=False)
     #sr = 16000
@@ -70,10 +73,12 @@ def predict_sound(time_start, wave, sr):
         end = beg+80
     #print(labels)
     # Save sound to DATABASES
+    user = Users.objects.get(id=user_id)
     Sound.objects.create(
         wave=wave.tolist(),
         time_start=time_start,
         sr=sr,
         label=labels,
+        user_id=user,
         )
     return labels

@@ -13,7 +13,7 @@ from server.serializer import UserSerializer, SoundSerializer
 from Predict.predict import predict_sound
 import json
 from fcm.utils import get_device_model
-
+import datetime
 
 @csrf_exempt
 def user_list(request):
@@ -31,8 +31,9 @@ def create_update_user(request, format=None):
     """Create update user."""
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
+        # user
         if serializer.is_valid():
-            serializer.save()
+        #     )
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     return JsonResponse('fail', safe=False, status=status.HTTP_400_BAD_REQUEST)
 
@@ -127,12 +128,14 @@ def label_predict(request, format=None):
             return JsonResponse("wave must be list", safe=False, status =400)
         sr = content['sr']
         time_start = content['time_start']
-        predicted_labels = predict_sound(time_start, wave, sr)
+        user_id_id = content['user_id_id']
+        predicted_labels = predict_sound(time_start, wave, sr,user_id_id)
         serializer = SoundSerializer(
             data={
                 'time_start': time_start,
                 'wave': wave,
-                'label': predicted_labels
+                'label': predicted_labels,
+                'user_id_id' : user_id_id
                 })
         if serializer.is_valid():
             serializer.save()
@@ -148,6 +151,53 @@ def label_predict(request, format=None):
     return JsonResponse(predicted_labels, safe=False, status=400)
 
 @csrf_exempt
+@api_view(['GET'])
+def getLabel(request,format=None):
+    "get Label"
+    if request.method == 'GET':
+        #content = json.loads(request.body)
+        time_start = request.GET['time_start']
+        user_id = request.GET['user_id']
+        now = datetime.datetime.now()
+        sounds = Sound.objects.filter(user_id=user_id, time_start__range=[time_start,now])
+        result = []
+        for i in range(0,len(sounds)):
+            result.append({
+                "time_start" : sounds[i].time_start,
+                "label": sounds[i].label
+                })
+        data ={
+            "count": len(result),
+            "result": result
+        }
+        return JsonResponse(data,safe=False, status=200)
+    return JsonResponse("fck u",safe = False,status=400)
+
+@csrf_exempt
+@api_view(['GET'])
+def getSound(request,format=None):
+    "get Sound"
+    if request.method == 'GET':
+        #content = json.loads(request.body)
+        time_start = request.GET['time_start']
+        user_id = request.GET['user_id']
+        sounds = Sound.objects.filter(user_id=user_id, time_start=time_start)
+        result = []
+        for i in range(0,len(sounds)):
+            result.append({
+                "time_start" : sounds[i].time_start,
+                "sr" : sounds[i].sr,
+                "label": sounds[i].label,
+                "wave" : sounds[i].wave
+                })
+        data ={
+            "count": len(result),
+            "result": result
+        }
+        return JsonResponse(data,safe=False, status=200)
+    return JsonResponse("fck u",safe = False,status=400)
+
+@csrf_exempt
 @api_view(['PUT','POST'])
 def FCM(request,format=None):
     "Sending Notification"
@@ -157,10 +207,6 @@ def FCM(request,format=None):
 
         my_phone = Device.objects.get(name="An device")
         my_phone.send_message({'mess':message}, collapse_key='something')
-        #device = FCMDevice.objects.all().first()
-        #device.send_message("Title", "Message")
-        #device.send_message(data={"test": "test"})
-        #device.send_message(title="Title", body="Message", icon=..., data={"test": "test"})
 
         return JsonResponse("success", safe =False, status=200)
     return JsonResponse(errors,safe=False,status=400)
