@@ -137,18 +137,42 @@ def label_predict(request, format=None):
                 'label': predicted_labels,
                 'user_id_id' : user_id_id
                 })
+        trigger_label = ["flushing", "cryingBaby"];
+        trigger = False;
+        for key in predicted_labels:
+            for labels in trigger_label:
+                if (key == labels):
+                    trigger = true
+                    break;
         if serializer.is_valid():
             serializer.save()
-            Device = get_device_model()
-            my_phone = Device.objects.get(name="An device")
-            my_phone.send_message({'mess':serializer.data["label"]}, collapse_key='something')
+            noti = False;
+            noti_label= "cryingBaby"
+            for key in predicted_labels:
+                if key == noti_label:
+                    noti = True
+                    break;
+            if (noti):
+                message = str(noti_label) + "\n" + str(serializer.data["time_start"]) 
+                Device = get_device_model()
+                my_phone = Device.objects.get(name="An device")
+                my_phone.send_message({'mess':message}, collapse_key='something')
 
-            return JsonResponse(predicted_labels, safe=False, status=201)
+            return JsonResponse({
+                "Labels": predicted_labels,
+                "Trigger": trigger
+                }, safe=False, status=201)
         Device = get_device_model()
         my_phone = Device.objects.get(name="An device")
-        my_phone.send_message({'mess':serializer.data["label"]}, collapse_key='something')
-        return JsonResponse(predicted_labels, safe=False, status=200)
-    return JsonResponse(predicted_labels, safe=False, status=400)
+        my_phone.send_message({'mess': message}, collapse_key='something')
+        return JsonResponse({
+                "Labels": predicted_labels,
+                "Trigger": trigger
+                }, safe=False, status=200)
+    return JsonResponse({
+                "Labels": predicted_labels,
+                "Trigger": trigger
+                }, safe=False, status=400)
 
 @csrf_exempt
 @api_view(['GET'])
@@ -202,11 +226,13 @@ def getSound(request,format=None):
 def FCM(request,format=None):
     "Sending Notification"
     if request.method == 'PUT' or request.method == 'POST':
-        message = request.GET['mess']
-        Device = get_device_model()
-
-        my_phone = Device.objects.get(name="An device")
-        my_phone.send_message({'mess':message}, collapse_key='something')
-
+        verify = request.GET['verify']
+        time_start = request.GET['time_start']
+        if verify == '0':
+            message = "fail to verify\n" + str(time_start)
+            Device = get_device_model()
+            my_phone = Device.objects.get(name="An device")
+            my_phone.send_message({'mess': message}, collapse_key='something')
+            return JsonResponse("success",safe = False,status = 200)
         return JsonResponse("success", safe =False, status=200)
     return JsonResponse(errors,safe=False,status=400)

@@ -65,10 +65,12 @@ def predict_sound(time_start, wave, sr, user_id):
             blah = model.predict(np.array([grain]))
         if(np.max(blah[0]) >= threshold):
             label = str(data.byte_to_label(np.argmax(blah[0])))
-            if label in labels:
-                labels[label] = labels[label] + 1
-            else:
-                labels[label] = 1
+        else:
+            label = 'unknown'
+        if label in labels:
+             labels[label] = labels[label] + 1
+        else:
+            labels[label] = 1
         beg = beg+hop
         end = beg+80
     #print(labels)
