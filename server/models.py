@@ -21,7 +21,7 @@ class Sound(models.Model):
     wave = ArrayField(models.FloatField(), blank=True, default=[])
     sr = models.IntegerField(default=16000)
     label = JSONField(default={}, null=True, blank=True)
-    user_id = models.ForeignKey(Users, default='',null = True,blank=True)
+    user_id = models.ForeignKey(Users, default='',null = True,blank=True,on_delete=models.CASCADE)
 
     @classmethod
     def createR(cls, label):
