@@ -118,7 +118,7 @@ def label_predict(request, format=None):
         print (type(wave))
         sr = request.GET['sr']
         time_start = request.GET['time_start']
-        
+
         """
         content = json.loads(request.body)
         wave = content['wave']
@@ -153,7 +153,7 @@ def label_predict(request, format=None):
                     noti = True
                     break;
             if (noti):
-                message = str(noti_label) + "\n" + str(serializer.data["time_start"]) 
+                message = str(noti_label) + "\n" + str(serializer.data["time_start"])
                 Device = get_device_model()
                 my_phone = Device.objects.get(name="An device")
                 my_phone.send_message({'mess':message}, collapse_key='something')
@@ -228,8 +228,10 @@ def FCM(request,format=None):
     if request.method == 'PUT' or request.method == 'POST':
         verify = request.GET['verify']
         time_start = request.GET['time_start']
+        labelSound = request.GET['labelsound']
+        print(labelSound)
         if verify == '0':
-            message = "fail to verify\n" + str(time_start)
+            message = "fail to verify\n" + str(time_start) + "/n Labels: " + str(labelSound)
             Device = get_device_model()
             my_phone = Device.objects.get(name="An device")
             my_phone.send_message({'mess': message}, collapse_key='something')
